@@ -13,9 +13,17 @@ Comparativa con otros frameworks: https://es-vuejs.github.io/vuejs.org/v2/guide/
 
 ## Data binding
 
-```{{ propiedad }}``` accederiamos desde el template a una propiedad del modelo.
+```{{ variable }}``` accederiamos desde el template a una propiedad del modelo.
 
 $data: accedes a todo el modelo de datos del componente
+
+Para lincar el modelo con atributos nativos de HTML utilizaremos v-bind:
+
+```html
+<li v-bind:class="{completado: tarea.completado}" v-for="tarea in tareas"></li>
+<!-- Modo corto -->
+<li :class="{completado: tarea.completado}" v-for="tarea in tareas"></li>
+```
 
 ## Eventos
 
@@ -120,7 +128,91 @@ Vue.filter('mensajeAlReves',(mensaje) => mensaje.split('').reverse().join(''))
 ```
 
 
-# Herramientas
+# Transiciones
+
+Utilizando el componente de Vue ```<transition>``` podemos animar cualquier elemento en los siguientes contextos:
+
+* Conditional rendering (using v-if)
+* Conditional display (using v-show)
+* Dynamic components
+* Component root nodes
+
+El componente recoge el nombre que le indiques e irá a buscar diferentes clases que deberemos definir dependiendo de la acción que queramos animar:
+
+```html
+<transition name="fade">
+  <p v-if="show">hello</p>
+</transition>
+```
+```css
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+```
+
+<img src="https://vuejs.org/images/transition.png" width="400">
+
+Hay muchas posibilidades con las transiciones como:
+
+* Definir transiciones con methods del componente
+* Utilizar tus propias animaciones CSS
+* Utilizar librerías de CSS externas
+* Definir comportamientos de entrada y salida
+
+Más info en: https://vuejs.org/v2/guide/transitions.html#Transitioning-Single-Elements-Components
+
+
+# Ajax en VUE
+
+## Ajax con vue-resource
+
+<a href="https://vuejs.org/v2/guide/transitions.html#Transitioning-Single-Elements-Components" target="_blank">vue-resource</a> es un plugin de Vue para poder realizar peticiones utilizando XMLHttpRequest o JSONP
+
+Se puede instalar con npm, yarn o bower, o añadiendo la etiqueta script con el cdn:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+```
+
+Ejemplo de uso:
+
+```javascript
+{
+  // GET /someUrl
+  this.$http.get('/someUrl').then(response => {
+
+    // get body data
+    this.someData = response.body;
+
+  }, response => {
+    // error callback
+  });
+}
+```
+
+Todos los tipos de peticiones REST: GET, PUT, DELETE, POST, ...
+
+Desde la organizacion de Vue recomiendan el uso de librerías que solventan este problema y tienen mas mantenimiento frente a este recurso https://medium.com/the-vue-point/retiring-vue-resource-871a82880af4.
+
+
+## Ajax con axios
+
+<a href="" target="_blank" >axios</a> es una librería basada en promesas para peticiones HTTP.
+
+Se puede instalar con npm, yarn o bower, o añadiendo la etiqueta script con el cdn:
+
+```html
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+```
+
+
+
+
+
+# Extras
 ## Vue-Devtools
 
 https://github.com/vuejs/vue-devtools
